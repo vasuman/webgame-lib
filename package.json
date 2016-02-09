@@ -16,11 +16,9 @@
   ],
   "author": "Vasuman",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
     "babel-core": "^6.5.1",
     "babel-preset-es2015": "^6.5.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.5.1"
   }
 }
