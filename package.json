@@ -1,0 +1,26 @@
+{
+  "name": "webgame-lib",
+  "version": "1.0.0",
+  "description": "Library for webgames",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "true",
+    "build": "./node_modules/.bin/babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vasuman/webgame-lib"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "Vasuman",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.5.1",
+    "babel-preset-es2015": "^6.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.5.1"
+  }
+}
