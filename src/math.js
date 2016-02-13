@@ -78,14 +78,14 @@ export class Rect {
     if (vertical) {
       let p = this.w * f;
       return [
-        new Box(this.x, this.y, p, this.h),
-        new Box(this.x + p, this.y, this.w - p, this.h)
+        new Rect(this.x, this.y, p, this.h),
+        new Rect(this.x + p, this.y, this.w - p, this.h)
       ];
     } else {
       let p = this.h * f;
       return [
-        new Box(this.x, this.y, this.w, p),
-        new Box(this.x, this.y + p, this.w, this.h - p)
+        new Rect(this.x, this.y, this.w, p),
+        new Rect(this.x, this.y + p, this.w, this.h - p)
       ];
     }
   }
@@ -99,6 +99,14 @@ export class Rect {
     this.y += val;
     this.w -= val;
     this.h -= val;
+    return this;
+  }
+
+  scale(f) {
+    this.x *= f;
+    this.y *= f;
+    this.w *= f;
+    this.h *= f;
     return this;
   }
 
