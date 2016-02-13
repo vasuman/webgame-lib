@@ -2,6 +2,10 @@ export function seed(val) {
   // TODO: implement
 }
 
+export function color() {
+  return `rgba(${i(0, 255)}, ${i(0, 255)}, ${i(0, 255)}, 255)`;
+}
+
 export function f(s = 0, e = 1) {
   return s + Math.random() * (e - s);
 }
