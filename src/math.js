@@ -32,20 +32,20 @@ export class Rect {
       this.y <= b.y + b.h && b.y <= this.y + this.w;
   }
 
-  fix(b) {
-    this.x = b.x - this.w / 2;
-    this.y = b.y - this.h / 2;
+  setCenter(v) {
+    this.x = v.x - this.w / 2;
+    this.y = v.y - this.h / 2;
     return this;
   }
 
-  center(b) {
+  center() {
+    return new V(this.x + this.w / 2, this.y + this.h / 2);
+  }
+
+  coCenter(b) {
     this.x = b.x + b.w / 2 - this.w / 2;
     this.y = b.y + b.h / 2 - this.h / 2;
     return this;
-  }
-
-  middle() {
-    return new V(this.x + this.w / 2, this.y + this.h / 2);
   }
 
   zoom(z) {
@@ -113,6 +113,10 @@ export class Rect {
   dimInRange(min, max) {
     return min <= this.w && this.w <= max && min <= this.h && this.h <= max;
   }
+
+  clone() {
+    return new Rect(this.x, this.y, this.w, this.h);
+  }
 }
 
 export class V {
@@ -156,7 +160,15 @@ export class V {
     return this;
   }
 
+  r() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
   blockDist(o) {
     return Math.abs(this.x - o.x) + Math.abs(this.y - o.y);
+  }
+
+  clone() {
+    return new V(this.x, this.y);
   }
 }
