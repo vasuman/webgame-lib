@@ -5,7 +5,8 @@
   "main": "lib/main.js",
   "scripts": {
     "test": "true",
-    "build": "./node_modules/.bin/babel src -d lib"
+    "build": "./node_modules/.bin/babel src -d lib",
+    "doc": "esdoc -c esdoc.json"
   },
   "repository": {
     "type": "git",

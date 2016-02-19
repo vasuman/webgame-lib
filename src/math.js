@@ -139,10 +139,10 @@ export class Rect {
    * @return {Rect} self
    */
   floor() {
-    this.x = ~~(this.x);
-    this.y = ~~(this.y);
-    this.w = ~~(this.w);
-    this.h = ~~(this.h);
+    this.x = Math.floor(this.x);
+    this.y = Math.floor(this.y);
+    this.w = Math.floor(this.w);
+    this.h = Math.floor(this.h);
     return this;
   }
 
@@ -168,10 +168,19 @@ export class Rect {
     }
   }
 
+  /**
+   * Returns the area under the rectangle.
+   * @return {number} area
+   */
   area() {
     return this.w * this.h;
   }
 
+  /**
+   * Shrinks the rectangle about the center.
+   * @param {number} val amount to shrink
+   * @return {Rect} self
+   */
   shrink(val) {
     this.x += val;
     this.y += val;
@@ -180,6 +189,11 @@ export class Rect {
     return this;
   }
 
+  /**
+   * Scales the entire rectangle.
+   * @param {number} f factor to scale by
+   * @return {Rect} self
+   */
   scale(f) {
     this.x *= f;
     this.y *= f;
@@ -188,14 +202,30 @@ export class Rect {
     return this;
   }
 
+  /**
+   * Checks that the dimensions of the rectangle are in the supplied range.
+   * @param {number} min minimum
+   * @param {number} max maximum
+   * @return {boolean} whether dimensions are in range
+   */
   dimInRange(min, max) {
     return min <= this.w && this.w <= max && min <= this.h && this.h <= max;
   }
 
+  /**
+   * Returns an identical instance.
+   * @return {Rect} copy of self
+   */
   clone() {
     return new Rect(this.x, this.y, this.w, this.h);
   }
 
+  /**
+   * Calculates the overlap with other rectangle along one axis.
+   * @param {Rect} b other rectangle
+   * @param {boolean} vertical axis
+   * @return {?int[]} two element tuple of [start, end]
+   */
   overlap(b, vertical = true) {
     let p = vertical ? 'y' : 'x';
     let d = (p === 'y') ? 'h' : 'w';
@@ -208,55 +238,113 @@ export class Rect {
 
 }
 
+/**
+ * Denotes a point in 2D space.
+ */
 export class Vec {
+
+  /**
+   * Initializes a point.
+   * @param {number} x x-coordinate
+   * @param {number} y y-coordinate
+   */
   constructor(x = 0, y = 0) {
     this.set(x, y);
   }
 
+  /**
+   * Sets the properties.
+   * @param {number} x x-coordinate
+   * @param {number} y y-coordinate
+   */
   set(x, y) {
+    /**
+     * X coordinate.
+     * @type {number}
+     */
     this.x = x;
+    /**
+     * Y coordinate.
+     * @type {number}
+     */
     this.y = y;
     return this;
   }
 
+  /**
+   * Difference with another vector.
+   * @param {Vec} v other
+   * @return {Vec} self
+   */
   sub(v) {
     this.x -= v.x;
     this.y -= v.y;
     return this;
   }
 
+  /**
+   * Sums with another vector.
+   * @param {Vec} v other
+   * @return {Vec} self
+   */
   add(v) {
     this.x += v.x;
     this.y += v.y;
     return this;
   }
 
+  /**
+   * Scales the vector.
+   * @param {number} f factor to scale by
+   * @return {Vec} self
+   */
   scale(f) {
     this.x *= f;
     this.y *= f;
     return this;
   }
 
+  /**
+   * Floors all properties.
+   * @return {Vec} self
+   */
   floor() {
     this.x = ~~(this.x);
     this.y = ~~(this.y);
     return this;
   }
 
+  /**
+   * Rounds all properties.
+   * @return {Vec} self
+   */
   round() {
     this.x = Math.round(this.x);
     this.y = Math.round(this.y);
     return this;
   }
 
-  r() {
+  /**
+   * Magnitude of the vector.
+   * @return {number} resultant
+   */
+  get r() {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
-  blockDist(o) {
-    return Math.abs(this.x - o.x) + Math.abs(this.y - o.y);
+  /**
+   * Calculates the manhattan distance with another vector.
+   * @param {Vec} v other vector
+   * @return {number} block distance
+   */
+  blockDist(v) {
+    return Math.abs(this.x - v.x) + Math.abs(this.y - v.y);
   }
 
+  /**
+   * Returns an identical instance.
+   * @return {Vec} copy of self
+   */
   clone() {
     return new Vec(this.x, this.y);
   }

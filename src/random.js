@@ -1,4 +1,4 @@
-const M = 8278626;
+const M = 80813;
 const P = 3;
 
 /**
@@ -12,6 +12,7 @@ export class Random {
    */
   constructor(seed = 0) {
     this.s = seed;
+    this.next();
   }
 
   /**
@@ -21,7 +22,7 @@ export class Random {
    */
   next() {
     let s = Math.sin(P + this.s) * M;
-    s -= ~~(s);
+    s -= Math.floor(s);
     this.s = s;
     return s;
   }
@@ -52,7 +53,7 @@ export class Random {
    * @param {number} exp power to which bias is raised
    * @return {boolean} random choice
    */
-  nextBool(bias = 1, exp = 1) {
+  choice(bias = 1, exp = 1) {
     return this.next() / Math.pow(bias, exp) < 0.5;
   }
 
@@ -67,4 +68,13 @@ export class Random {
     }).join('');
   }
 
+  /**
+   * Generates a random color string.
+   * @return {string} color in rgb() format
+   */
+  color() {
+    return `rgb(${this.nextInt(0, 255)}, ${this.nextInt(0, 255)}, ${this.nextInt(0, 255)})`;
+  }
 }
+
+export let random = new Random(Math.random() * Date.now());
