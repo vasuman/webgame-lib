@@ -1,19 +1,15 @@
-import { Rect, V } from './math.js';
+import { Rect, Vec } from './math.js';
 
-class Deferred {
-  constructor() {
-    this.cb = null;
+export function elem(tag, props = {}, children = []) {
+  let elt = document.createElement(tag);
+  for (let key of Object.keys(props)) {
+    let val = props[key];
+    elt.setAttribute(key, val);
   }
-
-  on(cb) {
-    this.cb = cb;
+  for (let child of children) {
+    elt.appendChild(child);
   }
-
-  fulfill(container) {
-    if (this.cb) {
-      this.cb(container);
-    }
-  }
+  return elt;
 }
 
 function c(name, classes = [], id = '') {
@@ -28,22 +24,24 @@ function c(name, classes = [], id = '') {
 }
 
 export default class Interface {
+
   constructor(elt) {
     this.root = elt;
   }
 
-  actions(as, aClass) {
-    let container = c('div', ['actions', aClass]);
+  actions(as) {
+    let container = elem('div', { 'class': 'actions' });
     root.appendChild(container);
     return as.map((name) => {
-      let btn = c('button', ['action']);
-      let def = new Deferred();
-      btn.innerText = name;
-      btn.addEventListener('click', (e) => {
-        def.fulfill(container);
+      let btn = elem('button', { 'class': 'action' }, [name]);
+      let promise = new Promise(function (resolve, reject) {
+        btn.addEventListener('click', (e) => {
+          resolve(e, container);
+        });
       });
       container.appendChild(btn);
-      return def;
+      return promise;
     });
   }
+
 }

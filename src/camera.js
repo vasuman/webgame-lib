@@ -1,4 +1,4 @@
-import { Rect, V } from './math.js';
+import { Rect, Vec } from './math.js';
 
 let test = new Rect();
 
@@ -8,7 +8,7 @@ export default class Camera {
     this.view = new Rect();
     this.w = w;
     this.h = h;
-    this.center = new V(w / 2, h / 2);
+    this.center = new Vec(w / 2, h / 2);
     this.z = 1;
   }
 
