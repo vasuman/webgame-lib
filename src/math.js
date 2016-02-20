@@ -5,10 +5,10 @@ export class Rect {
 
   /**
    * Initializes a rectangle.
-   * @param {number} x left
-   * @param {number} y top
-   * @param {number} w width
-   * @param {number} h height
+   * @param {number} x Left
+   * @param {number} y Top
+   * @param {number} w Width
+   * @param {number} h Height
    */
   constructor(x = 0, y = 0, w = 0, h = 0) {
     this.set(x, y, w, h);
@@ -16,10 +16,10 @@ export class Rect {
 
   /**
    * Sets all properties.
-   * @param {number} x left
-   * @param {number} y top
-   * @param {number} w width
-   * @param {number} h height
+   * @param {number} x Left
+   * @param {number} y Top
+   * @param {number} w Width
+   * @param {number} h Height
    * @return {Rect} self
    */
   set(x, y, w, h) {
@@ -30,9 +30,9 @@ export class Rect {
 
   /**
    * Sets the position of the rectangle.
-   * @param {number} x left
-   * @param {number} y top
-   * @return {Rect} self
+   * @param {number} x Left
+   * @param {number} y Top
+   * @return {Rect} Self
    */
   pos(x, y) {
     /**
@@ -50,9 +50,9 @@ export class Rect {
 
   /**
    * Sets the dimensions of the rectangle.
-   * @param {number} w width
-   * @param {number} h height
-   * @return {Rect} self
+   * @param {number} w Width
+   * @param {number} h Height
+   * @return {Rect} Self
    */
   dim(w, h) {
     /**
@@ -70,8 +70,8 @@ export class Rect {
 
   /**
    * Checks whether a point is contained in the rectangle.
-   * @param {Vec} v point
-   * @return {boolean} whether contained
+   * @param {Vec} v Point
+   * @return {boolean} Whether contained
    */
   contains(v) {
     return this.x <= v.x && v.x <= this.x + this.w &&
@@ -80,8 +80,8 @@ export class Rect {
 
   /**
    * Checks whether two rectangles intersect.
-   * @param {Rect} b rectangle to test against.
-   * @return {boolean} whether intersects
+   * @param {Rect} b Rectangle to test against.
+   * @return {boolean} Whether intersects
    */
   intersect(b) {
     return this.x <= b.x + b.w && b.x <= this.x + this.w &&
@@ -90,8 +90,8 @@ export class Rect {
 
   /**
    * Centers the rectangle on given point.
-   * @param {Vec} v center point
-   * @return {Rect} self
+   * @param {Vec} v Center point
+   * @return {Rect} Self
    */
   setCenter(v) {
     this.x = v.x - this.w / 2;
@@ -101,7 +101,7 @@ export class Rect {
 
   /**
    * Calculates the center of the rectangle.
-   * @return {Vec} center
+   * @return {Vec} Center
    */
   center() {
     return new Vec(this.x + this.w / 2, this.y + this.h / 2);
@@ -109,8 +109,8 @@ export class Rect {
 
   /**
    * Scales the dimensions about the center.
-   * @param {number} z factor to scale by
-   * @return {Rect} self
+   * @param {number} z Factor to scale by
+   * @return {Rect} Self
    */
   zoom(z) {
     let cX = this.x + this.w / 2;
@@ -124,7 +124,7 @@ export class Rect {
 
   /**
    * Rounds all the properties of the rectangle.
-   * @return {Rect} self
+   * @return {Rect} Self
    */
   round() {
     this.x = Math.round(this.x);
@@ -136,7 +136,7 @@ export class Rect {
 
   /**
    * Floors all the properties of the rectangle.
-   * @return {Rect} self
+   * @return {Rect} Self
    */
   floor() {
     this.x = Math.floor(this.x);
@@ -148,9 +148,9 @@ export class Rect {
 
   /**
    * Splits the rectangle into two along one axis.
-   * @param {number} f ratio of first part to original
-   * @param {boolean} vertical axis along which to split
-   * @return {Rect[]} parts
+   * @param {number} f Ratio of first part to original
+   * @param {boolean} vertical Axis along which to split
+   * @return {Rect[]} Parts
    */
   split(f, vertical = true) {
     if (vertical) {
@@ -170,7 +170,7 @@ export class Rect {
 
   /**
    * Returns the area under the rectangle.
-   * @return {number} area
+   * @return {number} Area
    */
   area() {
     return this.w * this.h;
@@ -178,8 +178,8 @@ export class Rect {
 
   /**
    * Shrinks the rectangle about the center.
-   * @param {number} val amount to shrink
-   * @return {Rect} self
+   * @param {number} val Amount to shrink
+   * @return {Rect} Self
    */
   shrink(val) {
     this.x += val;
@@ -191,8 +191,8 @@ export class Rect {
 
   /**
    * Scales the entire rectangle.
-   * @param {number} f factor to scale by
-   * @return {Rect} self
+   * @param {number} f Factor to scale by
+   * @return {Rect} Self
    */
   scale(f) {
     this.x *= f;
@@ -204,9 +204,9 @@ export class Rect {
 
   /**
    * Checks that the dimensions of the rectangle are in the supplied range.
-   * @param {number} min minimum
-   * @param {number} max maximum
-   * @return {boolean} whether dimensions are in range
+   * @param {number} min Minimum
+   * @param {number} max Maximum
+   * @return {boolean} Whether dimensions are in range
    */
   dimInRange(min, max) {
     return min <= this.w && this.w <= max && min <= this.h && this.h <= max;
@@ -214,7 +214,7 @@ export class Rect {
 
   /**
    * Returns an identical instance.
-   * @return {Rect} copy of self
+   * @return {Rect} Copy of self
    */
   clone() {
     return new Rect(this.x, this.y, this.w, this.h);
@@ -222,9 +222,9 @@ export class Rect {
 
   /**
    * Calculates the overlap with other rectangle along one axis.
-   * @param {Rect} b other rectangle
-   * @param {boolean} vertical axis
-   * @return {?int[]} two element tuple of [start, end]
+   * @param {Rect} b Other rectangle
+   * @param {boolean} vertical Axis
+   * @return {?int[]} Two element tuple of <code>[start, end]</code>
    */
   overlap(b, vertical = true) {
     let p = vertical ? 'y' : 'x';
@@ -245,8 +245,8 @@ export class Vec {
 
   /**
    * Initializes a point.
-   * @param {number} x x-coordinate
-   * @param {number} y y-coordinate
+   * @param {number} x X coordinate
+   * @param {number} y Y coordinate
    */
   constructor(x = 0, y = 0) {
     this.set(x, y);
@@ -254,8 +254,9 @@ export class Vec {
 
   /**
    * Sets the properties.
-   * @param {number} x x-coordinate
-   * @param {number} y y-coordinate
+   * @param {number} x X coordinate
+   * @param {number} y Y coordinate
+   * @return {Vec} Self
    */
   set(x, y) {
     /**
@@ -273,8 +274,8 @@ export class Vec {
 
   /**
    * Difference with another vector.
-   * @param {Vec} v other
-   * @return {Vec} self
+   * @param {Vec} v Other
+   * @return {Vec} Self
    */
   sub(v) {
     this.x -= v.x;
@@ -284,8 +285,8 @@ export class Vec {
 
   /**
    * Sums with another vector.
-   * @param {Vec} v other
-   * @return {Vec} self
+   * @param {Vec} v Other
+   * @return {Vec} Self
    */
   add(v) {
     this.x += v.x;
@@ -295,8 +296,8 @@ export class Vec {
 
   /**
    * Scales the vector.
-   * @param {number} f factor to scale by
-   * @return {Vec} self
+   * @param {number} f Factor to scale by
+   * @return {Vec} Self
    */
   scale(f) {
     this.x *= f;
@@ -306,7 +307,7 @@ export class Vec {
 
   /**
    * Floors all properties.
-   * @return {Vec} self
+   * @return {Vec} Self
    */
   floor() {
     this.x = ~~(this.x);
@@ -316,7 +317,7 @@ export class Vec {
 
   /**
    * Rounds all properties.
-   * @return {Vec} self
+   * @return {Vec} Self
    */
   round() {
     this.x = Math.round(this.x);
@@ -326,7 +327,7 @@ export class Vec {
 
   /**
    * Magnitude of the vector.
-   * @return {number} resultant
+   * @return {number} Resultant
    */
   get r() {
     return Math.sqrt(this.x * this.x + this.y * this.y);
@@ -334,8 +335,8 @@ export class Vec {
 
   /**
    * Calculates the manhattan distance with another vector.
-   * @param {Vec} v other vector
-   * @return {number} block distance
+   * @param {Vec} v Other
+   * @return {number} Block distance
    */
   blockDist(v) {
     return Math.abs(this.x - v.x) + Math.abs(this.y - v.y);
@@ -343,7 +344,7 @@ export class Vec {
 
   /**
    * Returns an identical instance.
-   * @return {Vec} copy of self
+   * @return {Vec} Copy of self
    */
   clone() {
     return new Vec(this.x, this.y);

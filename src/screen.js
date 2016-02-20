@@ -1,5 +1,3 @@
-import { Rect, Vec } from './math.js';
-
 export function elem(tag, props = {}, children = []) {
   let elt = document.createElement(tag);
   for (let key of Object.keys(props)) {
@@ -12,21 +10,21 @@ export function elem(tag, props = {}, children = []) {
   return elt;
 }
 
-function c(name, classes = [], id = '') {
-  let elt = document.createElement(name);
-  if (classes.length > 0) {
-    elt.className = classes.join(' ');
-  }
-  if (id) {
-    elt.id = id;
-  }
-  return elt;
-}
+/**
+ * A screen is a <code>&lt;canvas&gt;</code> overlaid with a
+ * <code>&lt;div&gt;</code> for UI controls.
+ */
+export class Screen {
 
-export default class Interface {
-
-  constructor(elt) {
-    this.root = elt;
+  constructor(w, h, cssPrefix = 'wgl') {
+    this.prefix = cssPrefix;
+    this.container = elem('div', { 'class': `${this.prefix}-container` });
+    this.can = elem('canvas', { 'class': `${this.prefix}-canvas` });
+    this.can.width = w;
+    this.can.height = h;
+    this.overlay = elem('div', { 'class': `${this.prefix}-overlay` });
+    this.container.appendChild(this.overlay);
+    this.container.appendChild(this.can);
   }
 
   actions(as) {
