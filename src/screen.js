@@ -27,19 +27,4 @@ export class Screen {
     this.container.appendChild(this.can);
   }
 
-  actions(as) {
-    let container = elem('div', { 'class': 'actions' });
-    root.appendChild(container);
-    return as.map((name) => {
-      let btn = elem('button', { 'class': 'action' }, [name]);
-      let promise = new Promise(function (resolve, reject) {
-        btn.addEventListener('click', (e) => {
-          resolve(e, container);
-        });
-      });
-      container.appendChild(btn);
-      return promise;
-    });
-  }
-
 }

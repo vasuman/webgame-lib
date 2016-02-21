@@ -1,4 +1,4 @@
-// example manifest
+/*
 let manifest = {
   images: {
     'imgs/all.png': {
@@ -7,28 +7,39 @@ let manifest = {
         y: 0,
         w: 16,
         h: 16,
-        scale: 1,
+        scale: 1
       }
     }
   }
+};
+*/
+
+function loadImage(src) {
+  let img = new Image();
+  img.src = src;
+  return new Promise((resolve) => {
+    img.addEventListener('load', () => {
+      resolve(img);
+    });
+  });
 }
 
 export default class Assets {
+
   constructor({ prefix = '/', smoothImage = true } = {}) {
     this.prefix = prefix;
     this.smoothImage = smoothImage;
     this.images = new Map();
   }
 
-  load(manifest, callback) {
+  load(manifest) {
     let srcs = Object.keys(manifest.images);
-    let cnt = src.length - 1;
+    let ps = [];
     for (let src of srcs) {
-      let img = new Image();
-
-      img.addEventListener('load', () => {
+      let p = loadImage(this.prefix + src).then((img) => {
         let defs = manifest.images[src];
-        for (let name of Object.keys(defs)) {
+        let names = Object.keys(defs);
+        for (let name of names) {
           let def = defs[name];
           let can = document.createElement('canvas');
           let scale = def.scale || 1;
@@ -39,14 +50,10 @@ export default class Assets {
           ctx.drawImage(img, def.x, def.y, def.w, def.h, 0, 0, w, h);
           this.images.set(name, can);
         }
-        cnt -= 1;
-        if (cnt == 0) {
-          callback();
-        }
       });
-
-      img.src = this.prefix + src;
+      ps.push(p);
     }
+    return Promise.all(ps);
   }
 
 }
