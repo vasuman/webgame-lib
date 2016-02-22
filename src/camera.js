@@ -69,12 +69,12 @@ export default class Camera {
      */
     this.z = 1;
     /**
-     * Maximum limit for <code>center.x</code>
+     * Maximum limit for `center.x`
      * @type {number}
      */
     this.limX = Infinity;
     /**
-     * Maximum limit for <code>center.y</code>
+     * Maximum limit for `center.y`
      * @type {number}
      */
     this.limY = Infinity;
@@ -143,7 +143,7 @@ export default class Camera {
 
   /**
    * Reset transformations applied to context. Called after the
-   * <code>begin()</code> method.
+   * `begin()` method.
    */
   end() {
     this._ctx.restore();
@@ -185,13 +185,13 @@ export default class Camera {
 
 }
 
-/* eslint-disable */
 /**
  * An object that the camera is capable of culling and drawing to the screen.
  * @interface
  */
 export class Drawer {
 
+  /* eslint-disable */
   /**
    * Set the rectangular bounds of the section to draw.
    * @param {Rect} rect Object bounds
@@ -205,5 +205,6 @@ export class Drawer {
    * @param {number} y Transformed y coordinate
    */
   draw(ctx, x, y) {}
+  /* eslint-enable */
+
 }
-/* eslint-enable */

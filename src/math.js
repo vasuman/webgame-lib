@@ -224,7 +224,7 @@ export class Rect {
    * Calculates the overlap with other rectangle along one axis.
    * @param {Rect} b Other rectangle
    * @param {boolean} vertical Axis
-   * @return {?int[]} Two element tuple of <code>[start, end]</code>
+   * @return {?int[]} Two element tuple of `[start, end]`
    */
   overlap(b, vertical = true) {
     let p = vertical ? 'y' : 'x';

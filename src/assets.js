@@ -1,19 +1,3 @@
-/*
-let manifest = {
-  images: {
-    'imgs/all.png': {
-      'player': {
-        x: 0,
-        y: 0,
-        w: 16,
-        h: 16,
-        scale: 1
-      }
-    }
-  }
-};
-*/
-
 function loadImage(src) {
   let img = new Image();
   img.src = src;
@@ -24,21 +8,51 @@ function loadImage(src) {
   });
 }
 
+/**
+ * Loads required assets.
+ */
 export default class Assets {
 
+  /**
+   * Initializes but **does not** load.
+   * @param {Object} options Options
+   */
   constructor({ prefix = '/', smoothImage = true } = {}) {
     this.prefix = prefix;
     this.smoothImage = smoothImage;
     this.images = new Map();
   }
 
+  /**
+   * Loads all the assets specified in the manifest.
+   * @param {Object} manifest Manifest of assets to load
+   * @return {Promise} Promise that is fulfilled when the assets are loaded
+   * @example
+   * let manifest = {
+   *   images: {
+   *     'imgs/all.png': {
+   *       'player': {
+   *         x: 0,
+   *         y: 0,
+   *         w: 16,
+   *         h: 16,
+   *         scale: 1
+   *       }
+   *     }
+   *   }
+   * }
+   */
   load(manifest) {
-    let srcs = Object.keys(manifest.images);
     let ps = [];
+
+    // load images
+    let srcs = Object.keys(manifest.images);
     for (let src of srcs) {
+
       let p = loadImage(this.prefix + src).then((img) => {
         let defs = manifest.images[src];
         let names = Object.keys(defs);
+
         for (let name of names) {
           let def = defs[name];
           let can = document.createElement('canvas');
@@ -50,9 +64,12 @@ export default class Assets {
           ctx.drawImage(img, def.x, def.y, def.w, def.h, 0, 0, w, h);
           this.images.set(name, can);
         }
+
       });
+
       ps.push(p);
     }
+
     return Promise.all(ps);
   }
 
