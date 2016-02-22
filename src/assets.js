@@ -15,11 +15,18 @@ export default class Assets {
 
   /**
    * Initializes but **does not** load.
-   * @param {Object} options Options
+   * @param {Object} options
+   * @param {string} options.prefix Path prefix for all assets
+   * @param {boolean} options.smoothImage Whether scaled images use pixel
+   * interpolation
    */
   constructor({ prefix = '/', smoothImage = true } = {}) {
     this.prefix = prefix;
-    this.smoothImage = smoothImage;
+    this._smoothImage = smoothImage;
+    /**
+     * Maps image names to images.
+     * @type {Map<string, CanvasImageSource>}
+     */
     this.images = new Map();
   }
 
@@ -31,7 +38,7 @@ export default class Assets {
    * let manifest = {
    *   images: {
    *     'imgs/all.png': {
-   *       'player': {
+   *       'img-1': {
    *         x: 0,
    *         y: 0,
    *         w: 16,
@@ -60,7 +67,7 @@ export default class Assets {
           let w = can.width = scale * def.w;
           let h = can.height = scale * def.h;
           let ctx = can.getContext('2d');
-          ctx.imageSmoothingEnabled = this.smoothImage;
+          ctx.imageSmoothingEnabled = this._smoothImage;
           ctx.drawImage(img, def.x, def.y, def.w, def.h, 0, 0, w, h);
           this.images.set(name, can);
         }

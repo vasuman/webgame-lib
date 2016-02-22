@@ -1,3 +1,16 @@
+
+function dim(axis) {
+  switch (axis) {
+    case 'x': return 'w';
+    case 'y': return 'h';
+    default: return null;
+  }
+}
+
+function isVertical(axis) {
+  return axis === 'y';
+}
+
 /**
  * Rectangle in 2D space.
  */
@@ -149,11 +162,11 @@ export class Rect {
   /**
    * Splits the rectangle into two along one axis.
    * @param {number} f Ratio of first part to original
-   * @param {boolean} vertical Axis along which to split
+   * @param {string} axis Axis along which to split
    * @return {Rect[]} Parts
    */
-  split(f, vertical = true) {
-    if (vertical) {
+  split(f, axis = 'y') {
+    if (isVertical(axis)) {
       let p = this.w * f;
       return [
         new Rect(this.x, this.y, p, this.h),
@@ -223,19 +236,28 @@ export class Rect {
   /**
    * Calculates the overlap with other rectangle along one axis.
    * @param {Rect} b Other rectangle
-   * @param {boolean} vertical Axis
+   * @param {string} axis Axis
    * @return {?int[]} Two element tuple of `[start, end]`
    */
-  overlap(b, vertical = true) {
-    let p = vertical ? 'y' : 'x';
-    let d = (p === 'y') ? 'h' : 'w';
-    let [min, max] = [this, b].sort((a, b) => a[p] - b[p]);
-    if (min[p] + min[d] > max[p]) {
-      return [max[p], Math.min(min[p] + min[d], max[p] + max[d])];
+  overlap(b, axis) {
+    let d = dim(axis);
+    let [min, max] = [this, b].sort((a, b) => a[axis] - b[axis]);
+    if (min[axis] + min[d] > max[axis]) {
+      return [max[axis], Math.min(min[axis] + min[d], max[axis] + max[d])];
     }
     return null;
   }
 
+  /**
+   * Finds the axis that seperate the rectangles.
+   * @param {Rect} b Other rectangle
+   * @return {string[]} List of axis that seperate the two rectangles
+   */
+  seperationAxis(b) {
+    return ['x', 'y'].filter((axis) => {
+      return this.overlap(b, isVertical(axis)) === null;
+    });
+  }
 }
 
 /**
