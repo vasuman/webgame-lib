@@ -1,10 +1,9 @@
+function complement(axis) {
+  return axis === 'y' ? 'x' : 'y';
+}
 
 function dim(axis) {
-  switch (axis) {
-    case 'x': return 'w';
-    case 'y': return 'h';
-    default: return null;
-  }
+  return axis === 'y' ? 'h' : 'w';
 }
 
 function isVertical(axis) {
