@@ -1,4 +1,8 @@
-A small general purpose library for webgames written in ES6.
+![](https://doc.esdoc.org/github.com/vasuman/webgame-lib/badge.svg)
+
+A small general purpose library for webgames.
+
+[Documentation](https://doc.esdoc.org/github.com/vasuman/webgame-lib/)
 
 # Installation
 
