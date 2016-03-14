@@ -4,7 +4,6 @@ div.wgl-container {
     z-index: 0;
 }
 
-
 div.wgl-overlay {
     position: absolute;
     z-index: 1;

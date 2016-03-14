@@ -1,4 +1,4 @@
-import { Rect, Vec } from './math.js';
+import { Rect, Vec } from './geom.js';
 
 /**
  * Limits a value to within a certain range.

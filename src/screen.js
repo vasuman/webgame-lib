@@ -11,8 +11,7 @@ export function elem(tag, props = {}, children = []) {
 }
 
 /**
- * A screen is a `<canvas>` overlaid with a
- * `<div>` for UI controls.
+ * A screen is a `<canvas>` overlaid with a `<div>` for UI controls.
  */
 export class Screen {
 
