@@ -38,6 +38,7 @@ export class Square extends Drawable {
    * @param {string} style Color
    */
   constructor(size, style = 'black') {
+    super();
     this.size = size;
     this.style = style;
     this.pos = new Vec();
@@ -64,6 +65,7 @@ export class Circle extends Drawable {
    * @param {string} style Color
    */
   constructor(radius, style = 'black') {
+    super();
     this.radius = radius;
     this.style = style;
   }
@@ -92,6 +94,7 @@ export class Sprite extends Drawable {
    * @param {Image} img Image to draw
    */
   constructor(img) {
+    super();
     this.img = img;
     this.pos = new Vec();
   }
@@ -111,6 +114,7 @@ export class Animation extends Drawable {
    * Sets up the animation.
    */
   constructor(images, frames) {
+    super();
     this.images = images;
     this.frames = frames;
     this._frameIdx = 0;
