@@ -1,8 +1,18 @@
-function complement(axis) {
+/**
+ * Finds the complement of the axis.
+ * @param {string} Axis
+ * @return {string} Complement
+ */
+export function complement(axis) {
   return axis === 'y' ? 'x' : 'y';
 }
 
-function dim(axis) {
+/**
+ * Returns the dimension along the supplied axis.
+ * @param {string} Axis
+ * @return {string} Dimension
+ */
+export function dimension(axis) {
   return axis === 'y' ? 'h' : 'w';
 }
 
@@ -32,7 +42,7 @@ export class Rect {
    * @param {number} y Top
    * @param {number} w Width
    * @param {number} h Height
-   * @return {Rect} self
+   * @return {Rect} Self
    */
   set(x, y, w, h) {
     this.pos(x, y);
@@ -194,8 +204,8 @@ export class Rect {
    * @return {Rect} Self
    */
   shrink(val) {
-    this.x += val;
-    this.y += val;
+    this.x += val / 2;
+    this.y += val / 2;
     this.w -= val;
     this.h -= val;
     return this;
@@ -233,16 +243,30 @@ export class Rect {
   }
 
   /**
-   * Calculates the overlap with other rectangle along one axis.
-   * @param {Rect} b Other rectangle
+   * Sorts the rectangles along the supplied axis.
+   * @param {Rect} other Other rectangle
    * @param {string} axis Axis
-   * @return {?int[]} Two element tuple of `[start, end]`
+   * @return {Rect[]} Sorted rectangles
    */
-  overlap(b, axis) {
-    let d = dim(axis);
-    let [min, max] = [this, b].sort((a, b) => a[axis] - b[axis]);
+  order(other, axis) {
+    if (this[axis] < other[axis]) {
+      return [this, other];
+    } else {
+      return [other, this];
+    }
+  }
+
+  /**
+   * Calculates the overlap with other rectangle along one axis.
+   * @param {Rect} other Other rectangle
+   * @param {string} axis Axis
+   * @return {?int[]} Two element tuple of `[start, end]` both inclusive
+   */
+  overlap(other, axis) {
+    let d = dimension(axis);
+    let [min, max] = this.order(other, axis);
     if (min[axis] + min[d] > max[axis]) {
-      return [max[axis], Math.min(min[axis] + min[d], max[axis] + max[d])];
+      return [max[axis], Math.min(min[axis] + min[d], max[axis] + max[d]) - 1];
     }
     return null;
   }
@@ -254,7 +278,7 @@ export class Rect {
    */
   seperationAxis(b) {
     return ['x', 'y'].filter((axis) => {
-      return this.overlap(b, isVertical(axis)) === null;
+      return this.overlap(b, axis) === null;
     });
   }
 }
@@ -331,8 +355,8 @@ export class Vec {
    * @return {Vec} Self
    */
   floor() {
-    this.x = ~~(this.x);
-    this.y = ~~(this.y);
+    this.x = Math.floor(this.x);
+    this.y = Math.floor(this.y);
     return this;
   }
 
@@ -344,6 +368,15 @@ export class Vec {
     this.x = Math.round(this.x);
     this.y = Math.round(this.y);
     return this;
+  }
+
+  /**
+   * Linearly interpolates this vector with another.
+   * @param {number} f Interpolation factor
+   * @return {Vec} Interpolated vector
+   */
+  interpolate(f, other) {
+    return this.clone().scale(f).add(other.clone().scale(1 - f));
   }
 
   /**
