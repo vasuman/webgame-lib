@@ -397,6 +397,18 @@ export class Vec {
   }
 
   /**
+   * Clips the vector to within the bounds of the supplied rectangle.
+   * @param {Rect} rect Bounds
+   */
+  clip(rect) {
+    this.x = Math.max(rect.x, this.x);
+    this.y = Math.max(rect.y, this.y);
+    this.x = Math.min(rect.x + rect.w, this.x);
+    this.y = Math.min(rect.y + rect.h, this.y);
+    return this;
+  }
+
+  /**
    * Returns an identical instance.
    * @return {Vec} Copy of self
    */

@@ -12,7 +12,7 @@ function limit(min, val, max) {
 }
 
 /**
- * An orthographic viewport to a scene.
+ * An orthographic viewport to a scene that can be panned and zoomed.
  */
 export default class Camera {
 
@@ -62,33 +62,19 @@ export default class Camera {
      * Center of view focus.
      * @type {Vec}
      */
-    this.center = new Vec(w / 2, h / 2);
+    this._center = new Vec(w / 2, h / 2);
     /**
      * Current zoom.
      * @type {number}
      */
     this.z = 1;
     /**
-     * Maximum limit for `center.x`
-     * @type {number}
+     * Bounds for `center`
+     * @type {Rect}
      */
-    this.limX = Infinity;
-    /**
-     * Maximum limit for `center.y`
-     * @type {number}
-     */
-    this.limY = Infinity;
+    this.bounds = new Rect(0, 0, Infinity, Infinity);
     this._test = new Rect();
-  }
-
-  /**
-   * Sets maximum limits for center.
-   * @param {number} x X coordinate limit
-   * @param {number} y Y coordinate limit
-   */
-  setLimits(x, y) {
-    this.limX = x;
-    this.limY = y;
+    this._ctx = null;
   }
 
   /**
@@ -97,15 +83,30 @@ export default class Camera {
    * @param {number} py Distance along Y direction
    */
   pan(px, py) {
-    this.center.x -= this.panSpeed * px / this.z;
-    this.center.y -= this.panSpeed * py / this.z;
-    this.center.x = limit(0, this.center.x, this.limX);
-    this.center.y = limit(0, this.center.y, this.limY);
+    this._center.x -= this.panSpeed * px / this.z;
+    this._center.y -= this.panSpeed * py / this.z;
+    this._center.clip(this.bounds);
+  }
+
+  /**
+   * Center focus.
+   * @param {Vec} point Point to center on
+   */
+  set center(center) {
+    this._center.set(center.x, center.y);
+    this._center.clip(this.bounds);
+  }
+
+  /**
+   * Gets the center.
+   */
+  get center() {
+    return this._center;
   }
 
   /**
    * Zooms the view.
-   * @param {boolean} out Whether zooming out
+   * @param {boolean} out Whether zooming out or in
    */
   zoom(out = false) {
     if (out) {
@@ -131,11 +132,10 @@ export default class Camera {
    * @param {CanvasRenderingContext2D} ctx Render context
    */
   begin(ctx) {
-    this.view.set(this.center.x - this.w / 2, this.center.y - this.h / 2,
-        this.w, this.h);
+    this.view.set(this._center.x - this.w / 2, this._center.y - this.h / 2,
+                  this.w, this.h);
     this.view.zoom(1 / this.z);
     this._ctx = ctx;
-    this.black();
     this._ctx.save();
     this._ctx.scale(this.z, this.z);
     this._ctx.translate(-this.view.x, -this.view.y);
@@ -147,6 +147,7 @@ export default class Camera {
    */
   end() {
     this._ctx.restore();
+    this._ctx = null;
   }
 
   /**
@@ -158,53 +159,36 @@ export default class Camera {
   }
 
   /**
-   * Draw object on screen. Culls if the object is out of view.
-   * @param {Drawer} drawer Object to draw
-   * @param {Vec} p Center position to draw at
+   * Clear screen.
    */
-  draw(drawer, p) {
-    drawer.bounds(this._test);
-    this._test.fix(p);
-    if (!this._test.intersect(this.view)) {
-      return;
-    }
-    drawer.draw(this._ctx, this._test.x, this._test.y);
+  clear() {
+    this._ctx.clearScreen(0, 0, this.w, this.h);
   }
 
   /**
-   * Draw background image with transformations applied.
-   * @param {Image} img Background image
+   * Draw object on screen. Culls if the object is out of view.
+   * @param {Drawable} drawable Object to draw
+   * @param {Vec} p Center position to draw at
    */
-  background(img) {
+  draw(drawable, p) {
+    drawable.bounds(this._test);
+    this._test.setCenter(p);
+    if (!this._test.intersect(this.view)) {
+      return;
+    }
+    drawable.draw(this._ctx, this._test.x, this._test.y);
+  }
+
+  /**
+   * Draw *fixed layer* image with transformations applied.
+   * @param {Image} img Fixed layer image
+   */
+  drawLayer(img) {
     let left = Math.max(0, this.view.x);
     let top = Math.max(0, this.view.y);
     let w = this.view.w - Math.min(0, this.view.x);
     let h = this.view.h - Math.min(0, this.view.y);
     this._ctx.drawImage(img, left, top, w, h, left, top, w, h);
   }
-
-}
-
-/**
- * An object that the camera is capable of culling and drawing to the screen.
- * @interface
- */
-export class Drawer {
-
-  /* eslint-disable */
-  /**
-   * Set the rectangular bounds of the section to draw.
-   * @param {Rect} rect Object bounds
-   */
-  bounds(rect) {}
-
-  /**
-   * Draw.
-   * @param {CanvasRenderingContext2D} ctx Render context
-   * @param {number} x Transformed x coordinate
-   * @param {number} y Transformed y coordinate
-   */
-  draw(ctx, x, y) {}
-  /* eslint-enable */
 
 }

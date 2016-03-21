@@ -32,4 +32,11 @@ export class Screen {
     this.container.appendChild(this.can);
   }
 
+  hide() {
+    this.container.style.display = 'none';
+  }
+
+  show() {
+    this.container.style.display = '';
+  }
 }
