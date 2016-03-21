@@ -1,4 +1,4 @@
-export function elem(tag, props = {}, children = []) {
+function elem(tag, props = {}, children = []) {
   let elt = document.createElement(tag);
   for (let key of Object.keys(props)) {
     let val = props[key];
