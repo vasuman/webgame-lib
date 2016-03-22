@@ -1,3 +1,5 @@
+/* @module screen */
+
 function elem(tag, props = {}, children = []) {
   let elt = document.createElement(tag);
   for (let key of Object.keys(props)) {

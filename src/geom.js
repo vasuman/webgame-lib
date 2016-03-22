@@ -1,6 +1,8 @@
+/* @module geom */
+
 /**
  * Finds the complement of the axis.
- * @param {string} Axis
+ * @param {string} axis Axis
  * @return {string} Complement
  */
 export function complement(axis) {
@@ -9,7 +11,7 @@ export function complement(axis) {
 
 /**
  * Returns the dimension along the supplied axis.
- * @param {string} Axis
+ * @param {string} axis Axis
  * @return {string} Dimension
  */
 export function dimension(axis) {
@@ -319,23 +321,23 @@ export class Vec {
 
   /**
    * Difference with another vector.
-   * @param {Vec} v Other
+   * @param {Vec} other Other
    * @return {Vec} Self
    */
-  sub(v) {
-    this.x -= v.x;
-    this.y -= v.y;
+  sub(other) {
+    this.x -= other.x;
+    this.y -= other.y;
     return this;
   }
 
   /**
    * Sums with another vector.
-   * @param {Vec} v Other
+   * @param {Vec} other Other
    * @return {Vec} Self
    */
-  add(v) {
-    this.x += v.x;
-    this.y += v.y;
+  add(other) {
+    this.x += other.x;
+    this.y += other.y;
     return this;
   }
 
@@ -373,6 +375,7 @@ export class Vec {
   /**
    * Linearly interpolates this vector with another.
    * @param {number} f Interpolation factor
+   * @param {Vec} other Other
    * @return {Vec} Interpolated vector
    */
   interpolate(f, other) {
@@ -389,11 +392,11 @@ export class Vec {
 
   /**
    * Calculates the manhattan distance with another vector.
-   * @param {Vec} v Other
+   * @param {Vec} other Other
    * @return {number} Block distance
    */
-  blockDist(v) {
-    return Math.abs(this.x - v.x) + Math.abs(this.y - v.y);
+  blockDist(other) {
+    return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
   }
 
   /**

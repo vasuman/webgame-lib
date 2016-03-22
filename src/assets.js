@@ -1,3 +1,5 @@
+/* @module assets */
+
 function loadImage(src) {
   let img = new Image();
   img.src = src;
@@ -100,8 +102,7 @@ export default class Assets {
       }
     }
     if (manifest.data) {
-      let srcs = Object.keys(manifest.data);
-      for (let src of srcs) {
+      for (let src of manifest.data) {
         let path = this.prefix + src;
         ps.push(loadData(path).then(data => this.data.set(path, data)));
       }

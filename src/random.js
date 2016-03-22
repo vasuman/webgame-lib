@@ -1,3 +1,5 @@
+/* @module random */
+
 const M = 80813;
 const P = 3;
 

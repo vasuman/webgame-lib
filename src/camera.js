@@ -1,3 +1,5 @@
+/* @module camera */
+
 import { Rect, Vec } from './geom.js';
 
 /**
@@ -21,8 +23,10 @@ export default class Camera {
    * @param {number} w Width of viewport
    * @param {number} h Height of viewport
    * @param {Object} options Options
+   * @param {number} options.pan Pan speed
+   * @param {number} options.zoom Zoom factor
    */
-  constructor(w, h, { pan = 1, zoom = 2, minZoom = 1, maxZoom = 2 } = {}) {
+  constructor(w, h, {pan = 1, zoom = 2} = {}) {
     /**
      * Rectangle representing the viewport.
      * @type {Rect}
@@ -52,17 +56,12 @@ export default class Camera {
      * Minimum zoom.
      * @type {number}
      */
-    this.minZoom = minZoom;
+    this.minZoom = 1;
     /**
      * Maximum zoom.
      * @type {number}
      */
-    this.maxZoom = maxZoom;
-    /**
-     * Center of view focus.
-     * @type {Vec}
-     */
-    this._center = new Vec(w / 2, h / 2);
+    this.maxZoom = Infinity;
     /**
      * Current zoom.
      * @type {number}
@@ -73,6 +72,8 @@ export default class Camera {
      * @type {Rect}
      */
     this.bounds = new Rect(0, 0, Infinity, Infinity);
+
+    this._center = new Vec(w / 2, h / 2);
     this._test = new Rect();
     this._ctx = null;
   }
@@ -89,7 +90,7 @@ export default class Camera {
   }
 
   /**
-   * Center focus.
+   * Center focus at supplied point.
    * @param {Vec} point Point to center on
    */
   set center(center) {
