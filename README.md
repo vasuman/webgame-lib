@@ -1,5 +1,7 @@
 ![](https://doc.esdoc.org/github.com/vasuman/webgame-lib/badge.svg)
 
+> Work-in-progress
+
 A small general purpose library for webgames.
 
 [Documentation](https://doc.esdoc.org/github.com/vasuman/webgame-lib/)
@@ -7,10 +9,7 @@ A small general purpose library for webgames.
 # Installation
 
 ```
-$ git clone https://github.com/vasuman/webgame-lib
-$ cd webgame-lib
-$ npm install
-$ npm link
+$ npm install --save webgame-lib
 ```
 
 # Usage

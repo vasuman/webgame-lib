@@ -27,11 +27,10 @@ export class Screen {
     this._prefix = cssPrefix;
     this.container = elem('div', { 'class': `${this._prefix}-container` });
     this.can = elem('canvas', { 'class': `${this._prefix}-canvas` });
-    this.can.width = w;
-    this.can.height = h;
     this.overlay = elem('div', { 'class': `${this._prefix}-overlay` });
     this.container.appendChild(this.overlay);
     this.container.appendChild(this.can);
+    this.resize(w, h);
   }
 
   hide() {
@@ -40,5 +39,15 @@ export class Screen {
 
   show() {
     this.container.style.display = '';
+  }
+
+  resize(w, h) {
+    this.can.width = w;
+    this.can.height = h;
+  }
+
+  clear() {
+    let ctx = this.can.getContext('2d');
+    ctx.clearRect(0, 0, this.can.width, this.can.height);
   }
 }

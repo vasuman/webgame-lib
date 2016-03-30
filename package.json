@@ -1,11 +1,12 @@
 {
   "name": "webgame-lib",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "Library for webgames",
   "main": "lib/main.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register",
     "build": "babel src -d lib",
+    "prepublish": "npm run build",
     "lint": "eslint src",
     "doc": "esdoc -c esdoc.json"
   },
@@ -14,7 +15,10 @@
     "url": "https://github.com/vasuman/webgame-lib"
   },
   "keywords": [
-    "game"
+    "webgame",
+    "library",
+    "game",
+    "gamedev"
   ],
   "author": "Vasuman",
   "license": "ISC",

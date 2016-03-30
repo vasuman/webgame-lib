@@ -1,6 +1,5 @@
 lib/
-doc
+doc/
 node_modules/
 *.swp
 *.swo
-index.js
