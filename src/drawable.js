@@ -183,3 +183,10 @@ export class Animation extends Drawable {
     }
   }
 }
+
+export class PreDrawn extends Drawable {
+
+  constructor() {
+
+  }
+}

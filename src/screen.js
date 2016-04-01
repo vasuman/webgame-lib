@@ -12,6 +12,22 @@ function elem(tag, props = {}, children = []) {
   return elt;
 }
 
+const overlayStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  'z-index': 1
+};
+
+const containerStyle = {
+    position: 'relative',
+    display: 'inline-block',
+    'z-index': 0
+};
+
 /**
  * A screen is a `<canvas>` overlaid with a `<div>` for UI controls.
  */
@@ -28,6 +44,8 @@ export class Screen {
     this.container = elem('div', { 'class': `${this._prefix}-container` });
     this.can = elem('canvas', { 'class': `${this._prefix}-canvas` });
     this.overlay = elem('div', { 'class': `${this._prefix}-overlay` });
+    Object.assign(this.container.style, containerStyle);
+    Object.assign(this.overlay.style, overlayStyle);
     this.container.appendChild(this.overlay);
     this.container.appendChild(this.can);
     this.resize(w, h);
