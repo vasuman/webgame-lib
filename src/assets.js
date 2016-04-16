@@ -1,14 +1,14 @@
 /* @module assets */
 
-function loadImage(src) {
+function loadImage(path) {
   let img = new Image();
-  img.src = src;
+  img.src = path;
   return new Promise((resolve, reject) => {
     img.addEventListener('load', () => {
       resolve(img);
     });
     img.addEventListener('error', () => {
-      reject(new Error(`Failed to load image ${src}`));
+      reject(new Error(`Failed to load image at ${path}`));
     });
   });
 }
@@ -84,7 +84,7 @@ export default class Assets {
       let srcs = Object.keys(manifest.images);
       for (let src of srcs) {
         let path = this.prefix + src;
-        ps.push(loadImage().then(img => {
+        ps.push(loadImage(path).then(img => {
           let defs = manifest.images[src];
           let names = Object.keys(defs);
           for (let name of names) {

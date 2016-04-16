@@ -24,14 +24,13 @@ const overlayStyle = {
 
 const containerStyle = {
     position: 'relative',
-    display: 'inline-block',
-    'z-index': 0
+    display: 'flex'
 };
 
 /**
  * A screen is a `<canvas>` overlaid with a `<div>` for UI controls.
  */
-export class Screen {
+export default class Screen {
 
   /**
    * Initializes the DOM elements.
@@ -41,9 +40,9 @@ export class Screen {
    */
   constructor(w, h, cssPrefix = 'wgl') {
     this._prefix = cssPrefix;
-    this.container = elem('div', { 'class': `${this._prefix}-container` });
     this.can = elem('canvas', { 'class': `${this._prefix}-canvas` });
     this.overlay = elem('div', { 'class': `${this._prefix}-overlay` });
+    this.container = elem('div', { 'class': `${this._prefix}-container` });
     Object.assign(this.container.style, containerStyle);
     Object.assign(this.overlay.style, overlayStyle);
     this.container.appendChild(this.overlay);
@@ -51,12 +50,17 @@ export class Screen {
     this.resize(w, h);
   }
 
+  addTo(elt) {
+    elt.appendChild(this.container);
+  }
+
   hide() {
     this.container.style.display = 'none';
+
   }
 
   show() {
-    this.container.style.display = '';
+    this.container.style.display = 'flex';
   }
 
   resize(w, h) {
@@ -65,7 +69,11 @@ export class Screen {
   }
 
   clear() {
-    let ctx = this.can.getContext('2d');
-    ctx.clearRect(0, 0, this.can.width, this.can.height);
+    this.getContext().clearRect(0, 0, this.can.width, this.can.height);
   }
+
+  getContext() {
+    return this.can.getContext('2d');
+  }
+
 }

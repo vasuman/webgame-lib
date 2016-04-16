@@ -1,26 +1,25 @@
 /* @module geom */
 
-/**
- * Finds the complement of the axis.
- * @param {string} axis Axis
- * @return {string} Complement
- */
-export function complement(axis) {
-  return axis === 'y' ? 'x' : 'y';
-}
+export const Axis = {
 
-/**
- * Returns the dimension along the supplied axis.
- * @param {string} axis Axis
- * @return {string} Dimension
- */
-export function dimension(axis) {
-  return axis === 'y' ? 'h' : 'w';
-}
+  /**
+   * Finds the complement of the axis.
+   * @param {string} axis Axis
+   * @return {string} Complement
+   */
+  complement(axis) {
+    return axis === 'y' ? 'x' : 'y';
+  },
 
-function isVertical(axis) {
-  return axis === 'y';
-}
+  /**
+   * Returns the dimension along the supplied axis.
+   * @param {string} axis Axis
+   * @return {string} Dimension
+   */
+  dimension(axis) {
+    return axis === 'y' ? 'h' : 'w';
+  }
+};
 
 /**
  * Rectangle in 2D space.
@@ -177,7 +176,7 @@ export class Rect {
    * @return {Rect[]} Parts
    */
   split(f, axis = 'y') {
-    if (isVertical(axis)) {
+    if (axis === 'y') {
       let p = this.w * f;
       return [
         new Rect(this.x, this.y, p, this.h),
@@ -265,7 +264,7 @@ export class Rect {
    * @return {?int[]} Two element tuple of `[start, end]` both inclusive
    */
   overlap(other, axis) {
-    let d = dimension(axis);
+    let d = Axis.dimension(axis);
     let [min, max] = this.order(other, axis);
     if (min[axis] + min[d] > max[axis]) {
       return [max[axis], Math.min(min[axis] + min[d], max[axis] + max[d]) - 1];
