@@ -26,6 +26,8 @@ export class Dispatcher {
   }
 }
 
+/* eslint-disable no-unused-vars */
+
 export class State {
   setup() {}
 
@@ -33,3 +35,5 @@ export class State {
 
   teardown() {}
 }
+
+/* eslint-enable no-unused-vars */

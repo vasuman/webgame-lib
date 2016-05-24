@@ -13,21 +13,21 @@ function loadImage(path) {
   });
 }
 
-function loadData(src) {
+function loadData(path) {
   let xhr = new XMLHttpRequest();
-  xhr.open('GET', src, true);
-  xhr.send();
+  xhr.open('GET', path, true);
   return new Promise((resolve, reject) => {
-    xhr.onlaod = () => {
+    xhr.onload = () => {
       try {
         resolve(JSON.parse(xhr.responseText));
       } catch (e) {
-        reject(new Error(`Failed to parse ${src} because ${e}`));
+        reject(new Error(`Failed to parse JSON at ${path} because ${e}`));
       }
     }
     xhr.onerror = () => {
-      reject(new Error(`Failed to load data from ${src}`));
+      reject(new Error(`Failed to load data from ${path}`));
     }
+    xhr.send();
   });
 }
 
@@ -104,7 +104,7 @@ export default class Assets {
     if (manifest.data) {
       for (let src of manifest.data) {
         let path = this.prefix + src;
-        ps.push(loadData(path).then(data => this.data.set(path, data)));
+        ps.push(loadData(path).then(data => this.data.set(src, data)));
       }
     }
     return Promise.all(ps);

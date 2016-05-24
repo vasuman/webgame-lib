@@ -1,7 +1,5 @@
 /* @module drawable */
 
-import {Vec} from './geom.js';
-
 /* eslint-disable no-unused-vars */
 
 /**
@@ -27,7 +25,7 @@ export class Drawable {
 
 }
 
-/* eslint-enable */
+/* eslint-enable no-unused-vars */
 
 /**
  * Simple square.
@@ -66,7 +64,7 @@ export class Square extends Drawable {
    */
   draw(ctx, x, y) {
     ctx.fillStyle = this.style;
-    ctx.fillRect(x, y, size, size);
+    ctx.fillRect(x, y, this.size, this.size);
   }
 }
 
@@ -106,7 +104,7 @@ export class Circle extends Drawable {
    * @inheritdoc
    */
   draw(ctx, x, y) {
-    ctx.fillStyle = style;
+    ctx.fillStyle = this.style;
     ctx.beginPath();
     ctx.arc(x + this.radius, y + this.radius, this.radius, 0, 2 * Math.PI);
     ctx.closePath();
@@ -136,14 +134,14 @@ export class Sprite extends Drawable {
    * @inheritdoc
    */
   bounds(rect) {
-    rect.dim(img.width, img.height);
+    rect.dim(this.img.width, this.img.height);
   }
 
   /**
    * @inheritdoc
    */
   draw(ctx, x, y) {
-    ctx.drawImage(img, x, y);
+    ctx.drawImage(this.img, x, y);
   }
 }
 

@@ -126,7 +126,7 @@ export class Rect {
    * Calculates the center of the rectangle.
    * @return {Vec} Center
    */
-  center() {
+  get center() {
     return new Vec(this.x + this.w / 2, this.y + this.h / 2);
   }
 
@@ -416,5 +416,21 @@ export class Vec {
    */
   clone() {
     return new Vec(this.x, this.y);
+  }
+
+  from({x, y}) {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+
+  fromArray([x, y]) {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+
+  toArray() {
+    return [this.x, this.y];
   }
 }
